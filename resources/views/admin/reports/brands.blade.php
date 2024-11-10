@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Brand Report</title>
-        <link rel="icon" href="{{ asset('favicon.png') }}" />
+        <link rel="icon" href="{{ asset('lmpa.png') }}" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <style>
             html {
