@@ -3,45 +3,36 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Maintenance Mode</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                text-align: center;
-            }
-
-            .container {
-                background-color: white;
-                padding: 40px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                max-width: 500px;
-                width: 100%;
-            }
-
-            h1 {
-                font-size: 36px;
-                color: #333;
-                margin-bottom: 20px;
-            }
-
-            p {
-                font-size: 18px;
-                color: #777;
-            }
-        </style>
+        <title>Brand Report</title>
+        <link rel="icon" href="{{ asset('lmpa.png') }}" />
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        <div class="container">
-            <h1>We'll be back soon!</h1>
-            <p>We're performing some maintenance. Please check back later.</p>
-        </div>
+    <body class="bg-gray-100">
+        <section
+            class="flex min-h-screen items-center justify-center px-4 py-16"
+        >
+            <div
+                class="w-full max-w-4xl rounded-lg px-6 py-8 md:px-8 md:py-12 lg:py-16"
+            >
+                <div class="flex flex-col items-center gap-6 text-center">
+                    <img
+                        src="{{ asset('images/1718004199.png') }}"
+                        alt="under maintenance image"
+                        class="w-full max-w-xs object-cover md:max-w-md lg:max-w-lg"
+                    />
+                    <h2
+                        class="text-2xl font-bold text-gray-800 md:text-3xl lg:text-4xl"
+                    >
+                        We'll be back soon!
+                    </h2>
+                    <p
+                        class="max-w-md text-sm text-gray-500 md:text-base lg:text-lg"
+                    >
+                        We're performing some maintenance. Please check back
+                        later.
+                    </p>
+                </div>
+            </div>
+        </section>
     </body>
 </html>
