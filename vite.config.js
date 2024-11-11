@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/togglePassword.js',
+                'resources/js/handle-form-submit.js',
             ],
             refresh: true,
         }),
