@@ -1,7 +1,6 @@
 @include('layouts.admin')
 <x-page-title>Add New Supplier</x-page-title>
 @include('layouts.admin.sidebar.navigation-menu')
-<x-sidebar.navigation-menu />
 <x-forms.container>
     <x-forms.title>Add New Supplier</x-forms.title>
     <x-forms.divider />
