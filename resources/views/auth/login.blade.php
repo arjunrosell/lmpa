@@ -52,21 +52,19 @@
             </div>
         </div>
     </div>
-    {{--
-        <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
-        function handleButtonClick(buttonId) {
-        const submitButton = document.getElementById(buttonId)
-        if (submitButton) {
-        submitButton.addEventListener('click', function () {
-        submitButton.disabled = true
-        submitButton.closest('form').submit()
+            function handleButtonClick(buttonId) {
+                const submitButton = document.getElementById(buttonId)
+                if (submitButton) {
+                    submitButton.addEventListener('click', function () {
+                        submitButton.disabled = true
+                        submitButton.closest('form').submit()
+                    })
+                }
+            }
+
+            handleButtonClick('loginButton')
         })
-        }
-        }
-        
-        handleButtonClick('loginButton')
-        })
-        </script>
-    --}}
+    </script>
 </x-layout>
