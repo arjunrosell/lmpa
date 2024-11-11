@@ -14,43 +14,19 @@ class AdminBrandController extends Controller
     private function search(SearchRequest $request)
     {
         $query = Brand::orderBy('updated_at', 'desc');
-
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('description', 'LIKE', "%{$search}%");
-            });
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('description', 'LIKE', "%{$search}%");
         }
-
-        if ($request->has('brand_filter') && $request->input('brand_filter') !== 'all') {
-            $query->where('name', $request->input('brand_filter'));
-        }
-
         return $query->paginate(15);
     }
 
     public function index(SearchRequest $request)
     {
-        $query = Brand::query();
-
-        if ($request->has('brands')) {
-            if (!in_array('all', $request->brands)) {
-                $query->whereIn('id', $request->brands);
-            }
-        }
-
-        if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        $allBrands = Brand::withCount('products')->get();
-
-        $brands = $query->paginate(10);
-
-        return view('admin.brands.index', compact('brands', 'allBrands'));
+        $brands = $this->search($request);
+        return view('admin.brands.index', compact('brands'));
     }
-
 
     public function create()
     {
@@ -99,11 +75,5 @@ class AdminBrandController extends Controller
         $brand->delete();
         flash()->success("Brand '" . e($brand->name) . "' deleted successfully.");
         return redirect()->route('admin.brands.index');
-    }
-
-    public function deleteAllBrand()
-    {
-        Brand::truncate();
-        return redirect()->route('admin.brands.index')->with('success', 'All records have been deleted.');
     }
 }

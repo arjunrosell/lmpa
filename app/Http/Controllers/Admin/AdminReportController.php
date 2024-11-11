@@ -73,6 +73,7 @@ class AdminReportController extends Controller
 
     public function users(Request $request)
     {
+        // Fetch users who have the 'client' role
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'client');
         })
