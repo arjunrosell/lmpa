@@ -26,7 +26,10 @@
                 </svg>
                 Add Brand
             </x-button>
-            <div class="flex w-full items-center space-x-3 md:w-auto">
+
+            <div
+                class="hidden w-full items-center space-x-3 md:block md:w-auto"
+            >
                 <button
                     id="filterDropdownButton"
                     data-dropdown-toggle="filterDropdown"
