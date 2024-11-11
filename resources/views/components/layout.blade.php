@@ -11,32 +11,10 @@
             rel="stylesheet"
         />
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-        {{--
-            <style>
-            .loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            background: #ffa600;
-            margin: 0 auto;
-            z-index: 99999;
-            }
-            </style>
-        --}}
     </head>
     <body
         class="mx-auto h-screen max-w-full bg-gray-50 antialiased dark:bg-gray-900"
     >
-        {{--
-            <div class="loader">
-            <img src="{{ asset('images/three-dots.svg') }}" />
-            </div>
-        --}}
-
         <main>
             <nav
                 class="fixed left-0 right-0 top-0 z-50 border-b border-gray-200 bg-white px-4 py-2.5 dark:border-gray-700 dark:bg-gray-800"
