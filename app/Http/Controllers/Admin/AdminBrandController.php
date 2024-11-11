@@ -54,8 +54,7 @@ class AdminBrandController extends Controller
     public function index(SearchRequest $request)
     {
         $brands = $this->search($request);
-        $allBrands = Brand::all();
-
+        $allBrands = Brand::withCount('products')->get();
         return view('admin.brands.index', compact('brands', 'allBrands'));
     }
 

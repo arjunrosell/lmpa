@@ -53,7 +53,7 @@
                         value="{{ $brand->id }}"
                         {{ request('brand') == $brand->id ? 'selected' : '' }}
                     >
-                        {{ $brand->name }}
+                        {{ $brand->name }} ({{ $brand->products_count }})
                     </option>
                 @endforeach
             </select>
@@ -76,7 +76,6 @@
             </x-button>
         </div>
     </div>
-
     <div class="h-full overflow-x-auto">
         <table
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
