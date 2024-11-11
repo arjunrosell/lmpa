@@ -26,7 +26,6 @@ class AdminReportController extends Controller
             $filename = "Product_Report_{$currentDate}_{$currentTime}.pdf";
             $pdf = Pdf::loadView('admin.reports.products', compact('products', 'currentDate'));
 
-            // Stream PDF to the browser (open in a new tab)
             return $pdf->stream($filename);
         }
 
