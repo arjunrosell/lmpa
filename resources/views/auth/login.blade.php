@@ -40,7 +40,7 @@
                             Forgot your password?
                         </a>
                     </div>
-                    <x-button>Login</x-button>
+                    <x-button id="loginButton">Login</x-button>
 
                     <div class="mt-4 text-sm text-black">
                         Don't have an account yet?

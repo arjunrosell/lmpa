@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Requests\Auth\LoginUserRequest;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class LoginUserController extends Controller
 {
@@ -16,6 +19,8 @@ class LoginUserController extends Controller
 
     public function store(LoginUserRequest $request)
     {
+        $this->ensureIsNotRateLimited($request); // Check rate limits first
+
         $validated = $request->validated();
 
         // Attempt login
@@ -23,11 +28,10 @@ class LoginUserController extends Controller
             $request->session()->regenerate();
 
             if (Auth::check()) {
-                $user = Auth::user(); // Get the authenticated user
+                $user = Auth::user();
 
                 if (!$user->hasVerifiedEmail()) {
                     flash()->warning("Login successful. Please verify your email to complete your registration.");
-
                     return redirect()->route('verification.notice');
                 } else {
                     flash()->success("Login successful. Welcome back!");
@@ -45,9 +49,31 @@ class LoginUserController extends Controller
             }
         }
 
+        RateLimiter::hit($this->throttleKey($request));
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email', 'password');
+    }
+
+    /**
+     * Ensure the user is not rate-limited
+     */
+    protected function ensureIsNotRateLimited(Request $request)
+    {
+        if (RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) { // 5 attempts allowed
+            throw ValidationException::withMessages([
+                'email' => 'Too many login attempts. Please try again in ' . RateLimiter::availableIn($this->throttleKey($request)) . ' seconds.',
+            ]);
+        }
+    }
+
+    /**
+     * Define throttle key based on user IP and email.
+     */
+    protected function throttleKey(Request $request)
+    {
+        return Str::lower($request->input('email')) . '|' . $request->ip();
     }
 
     public function destroy(Request $request)

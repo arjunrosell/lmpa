@@ -446,6 +446,7 @@
                                             @csrf
                                             <button
                                                 type="submit"
+                                                id="logoutButton"
                                                 class="block w-full px-4 py-3 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                             >
                                                 Logout
@@ -460,17 +461,5 @@
             </nav>
             {{ $slot }}
         </main>
-        {{-- <x-includes.footer /> --}}
-        {{--
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            
-            <script>
-            $(document).ready(function () {
-            setTimeout(function () {
-            $('.loader').fadeOut(500)
-            }, 1000)
-            })
-            </script>
-        --}}
     </body>
 </html>

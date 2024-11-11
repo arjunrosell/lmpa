@@ -41,7 +41,7 @@
                             placeholder="••••••••"
                         />
                     </div>
-                    <x-button>Register</x-button>
+                    <x-button id="registerButton">Register</x-button>
 
                     <div class="mt-4 text-sm text-black">
                         Already have an account?
