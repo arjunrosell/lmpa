@@ -100,10 +100,4 @@ class AdminBrandController extends Controller
         flash()->success("Brand '" . e($brand->name) . "' deleted successfully.");
         return redirect()->route('admin.brands.index');
     }
-
-    public function deleteAllBrand()
-    {
-        Brand::truncate();
-        return redirect()->route('admin.brands.index')->with('success', 'All records have been deleted.');
-    }
 }

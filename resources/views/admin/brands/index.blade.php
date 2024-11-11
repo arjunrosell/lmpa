@@ -26,7 +26,10 @@
                 </svg>
                 Add Brand
             </x-button>
-            <div class="flex w-full items-center space-x-3 md:w-auto">
+
+            <div
+                class="flex hidden w-full items-center space-x-3 md:block md:w-auto"
+            >
                 <button
                     id="filterDropdownButton"
                     data-dropdown-toggle="filterDropdown"
@@ -209,6 +212,7 @@
             </tbody>
         </table>
     </div>
+
     <div class="pt-4 sm:px-0">
         {{ $brands->links() }}
     </div>

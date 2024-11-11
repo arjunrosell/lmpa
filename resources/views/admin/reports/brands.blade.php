@@ -21,6 +21,7 @@
                 Date: {{ \Carbon\Carbon::now()->format('l, F j, Y g:i A') }}
             </p>
         </div>
+
         <div
             class="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8"
         >
@@ -49,6 +50,7 @@
                 </form>
             </div>
         </div>
+
         <div
             class="mx-auto max-w-7xl overflow-x-auto px-4 py-5 sm:px-6 lg:px-8"
         >

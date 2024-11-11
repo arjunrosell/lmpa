@@ -1,4 +1,4 @@
-<div class="w-full md:w-1/2">
+<div class="hidden w-full md:block md:w-1/2">
     <form class="flex items-center" method="GET" action="{{ $action }}">
         <div class="relative w-full">
             <div
