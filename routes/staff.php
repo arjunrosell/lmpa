@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\StaffCategoryController;
 use App\Http\Controllers\Staff\StaffSupplierController;
 use App\Http\Controllers\Staff\StaffDashboardController;
 use App\Http\Controllers\Staff\StaffAccountSettingsController;
+use App\Http\Controllers\Staff\StaffReportController;
 
 // Staff routes
 Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
@@ -68,4 +69,11 @@ Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
     // Account Management Routes
     Route::get('/staff/account', [StaffAccountSettingsController::class, 'edit'])->name('staff.account.edit');
     Route::put('/staff/account', [StaffAccountSettingsController::class, 'update'])->name('staff.account.update');
+
+    // Staff Reports
+    Route::get('/staff/reports/products',  [StaffReportController::class, 'products'])->name('staff.reports.products');
+    Route::get('/staff/reports/brands',    [StaffReportController::class, 'brands'])->name('staff.reports.brands');
+    Route::get('/staff/reports/suppliers', [StaffReportController::class, 'suppliers'])->name('staff.reports.suppliers');
+    Route::get('/staff/reports/sales',     [StaffReportController::class, 'sales'])->name('staff.reports.sales');
+    Route::get('/staff/reports/users',     [StaffReportController::class, 'users'])->name('staff.reports.users');
 });

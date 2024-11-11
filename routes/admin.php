@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminBrandController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminSalesController;
+use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminSupplierController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminAccountSettingsController;
-use App\Http\Controllers\Admin\AdminSalesController;
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
@@ -73,4 +74,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     // Account Management Routes
     Route::get('/admin/account', [AdminAccountSettingsController::class, 'edit'])->name('admin.account.edit');
     Route::put('/admin/account', [AdminAccountSettingsController::class, 'update'])->name('admin.account.update');
+
+    // Admin Reports
+    Route::get('/admin/reports/products',  [AdminReportController::class, 'products'])->name('admin.reports.products');
+    Route::get('/admin/reports/brands',    [AdminReportController::class, 'brands'])->name('admin.reports.brands');
+    Route::get('/admin/reports/suppliers', [AdminReportController::class, 'suppliers'])->name('admin.reports.suppliers');
+    Route::get('/admin/reports/sales',     [AdminReportController::class, 'sales'])->name('admin.reports.sales');
+    Route::get('/admin/reports/users',     [AdminReportController::class, 'users'])->name('admin.reports.users');
 });
