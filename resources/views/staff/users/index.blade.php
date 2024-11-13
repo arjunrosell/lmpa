@@ -5,42 +5,69 @@
     <div
         class="flex flex-col items-center justify-between space-y-3 pb-4 md:flex-row md:space-x-4 md:space-y-0"
     >
-        <div class="w-full md:w-1/2">
-            <form class="flex items-center">
-                <div class="relative w-full">
-                    <div
-                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
-                    >
-                        <svg
-                            aria-hidden="true"
-                            class="h-5 w-5 text-gray-500 dark:text-gray-400"
-                            fill="currentColor"
-                            viewbox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd"
-                            />
-                        </svg>
-                    </div>
-                    <input
-                        type="text"
-                        id="simple-search"
-                        class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                        placeholder="Search"
-                        required=""
-                    />
-                </div>
-            </form>
-        </div>
+        <x-search-form :action="route('staff.users.index')" />
         <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
         >
-            <x-button href="{{ route('staff.users.create') }}">
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="sort_by"
+                onchange="window.location.href = '?sort=' + this.value"
+            >
+                <option value="">Sort By</option>
+                <option
+                    value="name_asc"
+                    {{ request('sort') == 'name_asc' ? 'selected' : '' }}
+                >
+                    Name (A-Z)
+                </option>
+                <option
+                    value="name_desc"
+                    {{ request('sort') == 'name_desc' ? 'selected' : '' }}
+                >
+                    Name (Z-A)
+                </option>
+                <option
+                    value="created_asc"
+                    {{ request('sort') == 'created_asc' ? 'selected' : '' }}
+                >
+                    Date Created (Oldest First)
+                </option>
+                <option
+                    value="created_desc"
+                    {{ request('sort') == 'created_desc' ? 'selected' : '' }}
+                >
+                    Date Created (Newest First)
+                </option>
+            </select>
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="role"
+                onchange="window.location.href = '?role=' + this.value"
+            >
+                <option value="all">Filter by Role</option>
+                <option
+                    value="Admin"
+                    {{ request('role') == 'Admin' ? 'selected' : '' }}
+                >
+                    Admin
+                </option>
+                <option
+                    value="Staff"
+                    {{ request('role') == 'Staff' ? 'selected' : '' }}
+                >
+                    Staff
+                </option>
+                <option
+                    value="Client"
+                    {{ request('role') == 'Client' ? 'selected' : '' }}
+                >
+                    Client
+                </option>
+            </select>
+            <x-button href="{{ route('admin.users.create') }}">
                 <svg
-                    class="mr-2 h-3.5 w-3.5"
+                    class="mr-1 h-3.5 w-3.5"
                     fill="currentColor"
                     viewbox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -150,8 +177,6 @@
             </tbody>
         </table>
     </div>
-
-    {{-- pagination --}}
     <div class="pt-4 sm:px-0">
         {{ $users->links() }}
     </div>

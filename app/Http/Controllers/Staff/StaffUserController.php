@@ -25,13 +25,40 @@ class StaffUserController extends Controller
                 });
         }
 
+        if ($request->filled('role') && $request->input('role') !== 'all') {
+            $query->whereHas('roles', function ($query) use ($request) {
+                $query->where('name', $request->input('role'));
+            });
+        }
+
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'created_asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+            }
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
         return $query->paginate(15);
     }
 
     public function index(SearchRequest $request)
     {
         $users = $this->search($request);
-        return view('staff.users.index', compact('users'));
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
@@ -45,21 +72,17 @@ class StaffUserController extends Controller
 
         $validated = $request->validated();
 
-        // Create the user
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Define the default role
         $defaultRole = Role::where('name', 'client')->first();
 
-        // Assign roles to the user
         if (isset($validated['roles']) && !empty($validated['roles'])) {
             $user->roles()->attach($validated['roles']);
         } else {
-            // Attach default role if no roles provided
             if ($defaultRole) {
                 $user->roles()->attach($defaultRole->id);
             }
@@ -85,19 +108,15 @@ class StaffUserController extends Controller
     {
         $validated = $request->validated();
 
-        // Update user details
         $user->name = $validated['name'];
         $user->email = $validated['email'];
 
-        // Update password if provided
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
 
-        // Check if there are any changes to the user model
         $userChanged = $user->isDirty();
 
-        // Save the user if there are any changes
         if ($userChanged) {
             $user->save();
         }

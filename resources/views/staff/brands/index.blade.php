@@ -9,6 +9,53 @@
         <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
         >
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="sort_by"
+                onchange="window.location.href = '?sort=' + this.value"
+            >
+                <option value="">Sort By</option>
+                <option
+                    value="name_asc"
+                    {{ request('sort') == 'name_asc' ? 'selected' : '' }}
+                >
+                    Name (A-Z)
+                </option>
+                <option
+                    value="name_desc"
+                    {{ request('sort') == 'name_desc' ? 'selected' : '' }}
+                >
+                    Name (Z-A)
+                </option>
+                <option
+                    value="created_asc"
+                    {{ request('sort') == 'created_asc' ? 'selected' : '' }}
+                >
+                    Date Created (Oldest First)
+                </option>
+                <option
+                    value="created_desc"
+                    {{ request('sort') == 'created_desc' ? 'selected' : '' }}
+                >
+                    Date Created (Newest First)
+                </option>
+            </select>
+
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="brand_filter"
+                onchange="window.location.href = '?brand=' + this.value"
+            >
+                <option value="">Filter by Brand</option>
+                @foreach ($allBrands as $brand)
+                    <option
+                        value="{{ $brand->id }}"
+                        {{ request('brand') == $brand->id ? 'selected' : '' }}
+                    >
+                        {{ $brand->name }} ({{ $brand->products_count }})
+                    </option>
+                @endforeach
+            </select>
             <x-button href="{{ route('staff.brands.create') }}">
                 <svg
                     class="mr-1 h-3.5 w-3.5"

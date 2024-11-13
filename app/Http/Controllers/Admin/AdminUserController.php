@@ -25,6 +25,33 @@ class AdminUserController extends Controller
                 });
         }
 
+        if ($request->filled('role') && $request->input('role') !== 'all') {
+            $query->whereHas('roles', function ($query) use ($request) {
+                $query->where('name', $request->input('role'));
+            });
+        }
+
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'created_asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+            }
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
         return $query->paginate(15);
     }
 

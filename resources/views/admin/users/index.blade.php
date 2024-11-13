@@ -6,13 +6,69 @@
         class="flex flex-col items-center justify-between space-y-3 pb-4 md:flex-row md:space-x-4 md:space-y-0"
     >
         <x-search-form :action="route('admin.users.index')" />
-
         <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
         >
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="sort_by"
+                onchange="window.location.href = '?sort=' + this.value"
+            >
+                <option value="">Sort By</option>
+                <option
+                    value="name_asc"
+                    {{ request('sort') == 'name_asc' ? 'selected' : '' }}
+                >
+                    Name (A-Z)
+                </option>
+                <option
+                    value="name_desc"
+                    {{ request('sort') == 'name_desc' ? 'selected' : '' }}
+                >
+                    Name (Z-A)
+                </option>
+                <option
+                    value="created_asc"
+                    {{ request('sort') == 'created_asc' ? 'selected' : '' }}
+                >
+                    Date Created (Oldest First)
+                </option>
+                <option
+                    value="created_desc"
+                    {{ request('sort') == 'created_desc' ? 'selected' : '' }}
+                >
+                    Date Created (Newest First)
+                </option>
+            </select>
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="role"
+                onchange="window.location.href = '?role=' + this.value"
+            >
+                <option value="all">Filter by Role</option>
+                <option
+                    value="Admin"
+                    {{ request('role') == 'Admin' ? 'selected' : '' }}
+                >
+                    Admin
+                </option>
+                <option
+                    value="Staff"
+                    {{ request('role') == 'Staff' ? 'selected' : '' }}
+                >
+                    Staff
+                </option>
+                <option
+                    value="Client"
+                    {{ request('role') == 'Client' ? 'selected' : '' }}
+                >
+                    Client
+                </option>
+            </select>
+
             <x-button href="{{ route('admin.users.create') }}">
                 <svg
-                    class="mr-2 h-3.5 w-3.5"
+                    class="mr-1 h-3.5 w-3.5"
                     fill="currentColor"
                     viewbox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"

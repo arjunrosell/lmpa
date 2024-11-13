@@ -12,19 +12,45 @@ class StaffCategoryController extends Controller
 {
     private function search(SearchRequest $request)
     {
-        $query = Category::orderBy('updated_at', 'desc');
-        if ($request->has('search')) {
+        $query = Category::query();
+
+        if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('name', 'LIKE', "%{$search}%")
                 ->orWhere('description', 'LIKE', "%{$search}%");
         }
+
+        if ($request->filled('category')) {
+            $query->where('id', $request->input('category'));
+        }
+
+        $sort = $request->input('sort');
+        switch ($sort) {
+            case 'name_asc':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('name', 'desc');
+                break;
+            case 'created_asc':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'created_desc':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default:
+                $query->orderBy('updated_at', 'desc');
+        }
+
         return $query->paginate(15);
     }
 
     public function index(SearchRequest $request)
     {
         $categories = $this->search($request);
-        return view('staff.categories.index', compact('categories'));
+        $allCategories = Category::withCount('products')->get();
+
+        return view('staff.categories.index', compact('categories', 'allCategories'));
     }
 
     public function create()
