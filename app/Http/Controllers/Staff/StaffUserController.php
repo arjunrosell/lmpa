@@ -58,7 +58,7 @@ class StaffUserController extends Controller
     public function index(SearchRequest $request)
     {
         $users = $this->search($request);
-        return view('admin.users.index', compact('users'));
+        return view('staff.users.index', compact('users'));
     }
 
     public function create()
@@ -108,15 +108,29 @@ class StaffUserController extends Controller
     {
         $validated = $request->validated();
 
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
+        if (auth()->user()->hasRole('Staff') && auth()->user()->id !== $user->id) {
+            flash()->error("You can only update your own account.");
+            return redirect()->back();
+        }
+
+        if (auth()->user()->hasRole('Staff') && ($user->hasRole('Admin') || $user->hasRole('Client'))) {
+            flash()->error("You are not allowed to update the admin or client.");
+            return redirect()->back();
+        }
+
+        if (!empty($validated['name'])) {
+            $user->name = $validated['name'];
+        }
+
+        if (!empty($validated['email'])) {
+            $user->email = $validated['email'];
+        }
 
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
         }
 
         $userChanged = $user->isDirty();
-
         if ($userChanged) {
             $user->save();
         }
