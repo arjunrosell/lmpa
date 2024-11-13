@@ -25,14 +25,46 @@ class AdminProductController extends Controller
                 ->orWhere('name', 'LIKE', "%{$search}%");
         }
 
-        return $query->orderBy('updated_at', 'desc')->paginate(15);
+        if ($request->filled('brand') && $request->input('brand') !== 'all') {
+            $query->where('brand_id', $request->input('brand'));
+        }
+
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'created_asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                default:
+                    $query->orderBy('updated_at', 'desc');
+            }
+        } else {
+            $query->orderBy('updated_at', 'desc');
+        }
+
+        return $query->paginate(15);
     }
 
     public function index(SearchRequest $request)
     {
         $products = $this->search($request);
+        $brands = Brand::all();
 
-        return view('admin.products.index', compact('products'));
+        return view('admin.products.index', compact('products', 'brands'));
     }
 
     public function create()

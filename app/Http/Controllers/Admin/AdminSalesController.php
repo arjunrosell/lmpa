@@ -16,10 +16,13 @@ class AdminSalesController extends Controller
 {
     private function search(SearchRequest $request)
     {
-        $query = Sale::with(['user', 'product']);
+        $query = Sale::with(['user', 'product'])
+            ->join('products', 'sales.product_id', '=', 'products.id')
+            ->select('sales.*');
+
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('id', 'LIKE', "%{$search}%")
+            $query->where('sales.id', 'LIKE', "%{$search}%")
                 ->orWhereHas('product', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%");
                 })
@@ -27,7 +30,39 @@ class AdminSalesController extends Controller
                     $q->where('name', 'LIKE', "%{$search}%");
                 });
         }
-        return $query->orderBy('updated_at', 'desc')->paginate(15);
+
+        if ($request->has('sort')) {
+            switch ($request->input('sort')) {
+                case 'name_asc':
+                    $query->orderBy('products.name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('products.name', 'desc');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'created_asc':
+                    $query->orderBy('sales.created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('sales.created_at', 'desc');
+                    break;
+                default:
+                    $query->orderBy('sales.updated_at', 'desc');
+            }
+        } else {
+            $query->orderBy('sales.updated_at', 'desc');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('sales.status', $request->input('status'));
+        }
+
+        return $query->paginate(15);
     }
 
     public function index(SearchRequest $request)

@@ -6,10 +6,83 @@
         class="flex flex-col items-center justify-between space-y-3 pb-4 pt-2 md:flex-row md:space-x-4 md:space-y-0"
     >
         <x-search-form :action="route('staff.sales.index')" />
-
         <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
         >
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="sort_by"
+                onchange="window.location.href = '?sort=' + this.value"
+            >
+                <option value="">Sort By</option>
+                <option
+                    value="name_asc"
+                    {{ request('sort') == 'name_asc' ? 'selected' : '' }}
+                >
+                    Name (A-Z)
+                </option>
+                <option
+                    value="name_desc"
+                    {{ request('sort') == 'name_desc' ? 'selected' : '' }}
+                >
+                    Name (Z-A)
+                </option>
+                <option
+                    value="price_asc"
+                    {{ request('sort') == 'price_asc' ? 'selected' : '' }}
+                >
+                    Price (Low to High)
+                </option>
+                <option
+                    value="price_desc"
+                    {{ request('sort') == 'price_desc' ? 'selected' : '' }}
+                >
+                    Price (High to Low)
+                </option>
+                <option
+                    value="created_asc"
+                    {{ request('sort') == 'created_asc' ? 'selected' : '' }}
+                >
+                    Date Created (Oldest First)
+                </option>
+                <option
+                    value="created_desc"
+                    {{ request('sort') == 'created_desc' ? 'selected' : '' }}
+                >
+                    Date Created (Newest First)
+                </option>
+            </select>
+            <select
+                class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                name="status"
+                onchange="window.location.href = '?status=' + this.value"
+            >
+                <option value="">Filter by Status</option>
+                <option
+                    value="pending"
+                    {{ request('status') == 'pending' ? 'selected' : '' }}
+                >
+                    Pending
+                </option>
+                <option
+                    value="processing"
+                    {{ request('status') == 'processing' ? 'selected' : '' }}
+                >
+                    Processing
+                </option>
+                <option
+                    value="completed"
+                    {{ request('status') == 'completed' ? 'selected' : '' }}
+                >
+                    Completed
+                </option>
+                <option
+                    value="cancelled"
+                    {{ request('status') == 'cancelled' ? 'selected' : '' }}
+                >
+                    Cancelled
+                </option>
+            </select>
             <x-button href="{{ route('staff.sales.create') }}">
                 <svg
                     class="mr-1 h-3.5 w-3.5"
