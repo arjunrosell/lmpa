@@ -68,7 +68,7 @@ class StaffSalesController extends Controller
     public function index(SearchRequest $request)
     {
         $sales = $this->search($request);
-        return view('admin.sales.index', compact('sales'));
+        return view('staff.sales.index', compact('sales'));
     }
     public function create()
     {

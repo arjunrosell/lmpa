@@ -65,7 +65,6 @@
                     Client
                 </option>
             </select>
-
             <x-button href="{{ route('admin.users.create') }}">
                 <svg
                     class="mr-1 h-3.5 w-3.5"
