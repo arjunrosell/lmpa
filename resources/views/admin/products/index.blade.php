@@ -94,7 +94,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th
@@ -156,7 +156,9 @@
             </thead>
             <tbody>
                 @forelse ($products as $product)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr
+                        class="border-b hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
+                    >
                         <td
                             class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
                         >
@@ -211,7 +213,7 @@
                                     class="h-5 w-5"
                                     aria-hidden="true"
                                     fill="currentColor"
-                                    viewbox="0 0 20 20"
+                                    viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
@@ -275,6 +277,5 @@
             </tbody>
         </table>
     </div>
-    <!-- Pagination links -->
     {{ $products->links() }}
 </x-forms.container>

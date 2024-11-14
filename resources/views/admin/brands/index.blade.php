@@ -81,7 +81,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">Image</th>
@@ -98,7 +98,7 @@
             </thead>
             <tbody>
                 @forelse ($brands as $brand)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <td class="px-4 py-3">
                             <x-brand-logo :brand="$brand" />
                         </td>

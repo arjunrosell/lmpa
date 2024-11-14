@@ -80,7 +80,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">Name</th>
@@ -96,7 +96,7 @@
             </thead>
             <tbody>
                 @forelse ($categories as $category)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <th
                             scope="row"
                             class="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"

@@ -106,7 +106,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th
@@ -168,7 +168,7 @@
 
             <tbody>
                 @forelse ($sales as $sale)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <td
                             class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
                         >

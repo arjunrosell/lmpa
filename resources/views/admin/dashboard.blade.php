@@ -74,7 +74,6 @@
                 </p>
             </div>
         </div>
-        <!-- Card -->
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -99,8 +98,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Charts --}}
     <div class="mb-6 grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
         <div class="w-full overflow-hidden rounded-lg border bg-white p-6">
             <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
@@ -127,7 +124,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">SKU</th>
@@ -147,7 +144,7 @@
             </thead>
             <tbody>
                 @forelse ($topSellingProducts as $product)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <td class="px-4 py-3">
                             {{ $product->sku }}
                         </td>
@@ -193,14 +190,13 @@
             </tbody>
         </table>
     </div>
-    {{-- Supplier --}}
     <div class="h-full overflow-x-auto">
         <div class="mb-2 px-4 text-lg font-semibold">Top Suppliers</div>
         <table
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">Name</th>
@@ -217,7 +213,7 @@
             </thead>
             <tbody>
                 @forelse ($topSuppliers as $supplier)
-                    <tr class="border-b dark:border-gray-700">
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <th
                             scope="row"
                             class="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"
@@ -271,7 +267,6 @@
 </x-forms.container>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Monthly User Registrations and Orders
     var monthlyDataCtx = document
         .getElementById('monthlyDataChart')
         .getContext('2d')
@@ -314,8 +309,6 @@
             },
         },
     })
-
-    // Bar chart for order status distribution
     var salesStatusCtx = document
         .getElementById('orderStatusChart')
         .getContext('2d')
