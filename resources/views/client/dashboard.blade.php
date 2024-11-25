@@ -2,7 +2,7 @@
 <x-page-title>Client Dashboard</x-page-title>
 @include('layouts.client.sidebar.navigation-menu')
 <x-forms.container>
-    <div class="mb-6 grid gap-6 md:grid-cols-3 xl:grid-cols-3">
+    <div class="mb-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
