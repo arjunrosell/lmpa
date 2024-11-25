@@ -24,32 +24,30 @@
                 class="container mx-auto flex flex-wrap items-center justify-between px-6"
             >
                 <h1 class="text-2xl font-bold">
-                    <a href="/" class="hover:text-gray-400">LMPA</a>
+                    <a href="/" class="hover:text-black">LMPA</a>
                 </h1>
                 <nav class="hidden md:flex">
                     <ul class="flex space-x-6">
                         <li>
-                            <a href="#about" class="hover:text-gray-400">
+                            <a href="#about" class="hover:text-black">
                                 About Us
                             </a>
                         </li>
                         <li>
-                            <a href="#products" class="hover:text-gray-400">
+                            <a href="#products" class="hover:text-black">
                                 Products
                             </a>
                         </li>
                         <li>
-                            <a href="#contact" class="hover:text-gray-400">
+                            <a href="#contact" class="hover:text-black">
                                 Contact
                             </a>
                         </li>
                         <li>
-                            <a href="/login" class="hover:text-gray-400">
-                                Login
-                            </a>
+                            <a href="/login" class="hover:text-black">Login</a>
                         </li>
                         <li>
-                            <a href="/register" class="hover:text-gray-400">
+                            <a href="/register" class="hover:text-black">
                                 Register
                             </a>
                         </li>
