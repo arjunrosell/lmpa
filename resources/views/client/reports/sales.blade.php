@@ -34,7 +34,10 @@
             </div>
 
             <div>
-                <form method="GET" action="{{ route('admin.reports.sales') }}">
+                <form
+                    method="GET"
+                    action="{{ route('client.reports.sales') }}"
+                >
                     <button
                         type="submit"
                         name="download"
