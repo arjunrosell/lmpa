@@ -12,7 +12,7 @@ use App\Http\Controllers\Staff\StaffAccountSettingsController;
 use App\Http\Controllers\Staff\StaffReportController;
 
 // Staff routes
-Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:staff', 'throttle:global'])->group(function () {
     Route::get('/staff', [StaffDashboardController::class, 'index'])->name('staff.index');
 
 

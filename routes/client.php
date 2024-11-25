@@ -13,7 +13,7 @@ use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Client\ClientAccountSettingsController;
 
 // Client routes
-Route::middleware(['auth', 'verified', 'role:client'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:client', 'throttle:global'])->group(function () {
 
     Route::get('/client', [ClientDashboardController::class, 'index'])->name('client.index');
 

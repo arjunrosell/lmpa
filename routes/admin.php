@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\AdminSupplierController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminAccountSettingsController;
 
-Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin', 'throttle:global'])->group(function () {
 
     // Admin Dashboard Route
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.index');
