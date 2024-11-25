@@ -19,7 +19,6 @@
         </style>
     </head>
     <body class="bg-gray-100 text-gray-800">
-        <!-- Header -->
         <header class="bg-[var(--primary-color)] py-4 text-white">
             <div
                 class="container mx-auto flex flex-wrap items-center justify-between px-6"
@@ -134,7 +133,7 @@
                         prices!
                     </p>
                     <a
-                        href="#services"
+                        href="#products"
                         class="rounded-md bg-[var(--primary-color)] px-4 py-2 text-black shadow hover:bg-orange-400"
                     >
                         Explore Our Products
