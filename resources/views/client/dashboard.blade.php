@@ -2,7 +2,7 @@
 <x-page-title>Client Dashboard</x-page-title>
 @include('layouts.client.sidebar.navigation-menu')
 <x-forms.container>
-    <div class="mb-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+    <div class="mb-6 grid gap-6 md:grid-cols-3 xl:grid-cols-3">
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -51,29 +51,31 @@
                 </p>
             </div>
         </div>
-        <div
-            class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
-        >
+        {{--
             <div
-                class="mr-4 rounded-full bg-blue-100 p-3 text-blue-500 dark:bg-blue-500 dark:text-blue-100"
+            class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
             >
-                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
-                    ></path>
-                </svg>
+            <div
+            class="mr-4 rounded-full bg-blue-100 p-3 text-blue-500 dark:bg-blue-500 dark:text-blue-100"
+            >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+            d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+            ></path>
+            </svg>
             </div>
             <div>
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Sales Completed
-                </p>
-                <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
-                >
-                    {{ $completedSales }}
-                </p>
+            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+            Sales Completed
+            </p>
+            <p
+            class="text-lg font-semibold text-gray-700 dark:text-gray-200"
+            >
+            {{ $completedSales }}
+            </p>
             </div>
-        </div>
+            </div>
+        --}}
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -98,26 +100,29 @@
             </div>
         </div>
     </div>
-    <div class="mb-6 grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
+    {{--
+        <div class="mb-6 grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
         <div class="w-full overflow-hidden rounded-lg border bg-white p-6">
-            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Monthly User Registrations
-            </h2>
-            <div class="relative h-64 w-full">
-                <canvas id="monthlyDataChart"></canvas>
-            </div>
+        <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+        Monthly User Registrations
+        </h2>
+        <div class="relative h-64 w-full">
+        <canvas id="monthlyDataChart"></canvas>
         </div>
+        </div>
+        
         <div class="w-full overflow-hidden rounded-lg border bg-white p-6">
-            <h2
-                class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
-            >
-                Sales Status Distribution
-            </h2>
-            <div class="relative h-64 w-full">
-                <canvas id="orderStatusChart"></canvas>
-            </div>
+        <h2
+        class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
+        >
+        Sales Status Distribution
+        </h2>
+        <div class="relative h-64 w-full">
+        <canvas id="orderStatusChart"></canvas>
         </div>
-    </div>
+        </div>
+        </div>
+    --}}
     <div class="mb-6 h-full overflow-x-auto">
         <div class="mb-2 px-4 text-lg font-semibold">Top Selling Products</div>
         <table
@@ -247,81 +252,83 @@
         </table>
     </div>
 </x-forms.container>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+{{--
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
     var monthlyDataCtx = document
-        .getElementById('monthlyDataChart')
-        .getContext('2d')
+    .getElementById('monthlyDataChart')
+    .getContext('2d')
     var monthlyDataChart = new Chart(monthlyDataCtx, {
-        type: 'line',
-        data: {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-                'August',
-                'September',
-                'October',
-                'November',
-                'December',
-            ],
-            datasets: [
-                {
-                    label: 'User Registrations',
-                    data: @json(array_values($chartData['users'])),
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: true,
-                    borderWidth: 2,
-                    tension: 0.4,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                },
-            },
-        },
+    type: 'line',
+    data: {
+    labels: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+    ],
+    datasets: [
+    {
+    label: 'User Registrations',
+    data: @json(array_values($chartData['users'])),
+    borderColor: 'rgba(54, 162, 235, 1)',
+    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    fill: true,
+    borderWidth: 2,
+    tension: 0.4,
+    },
+    ],
+    },
+    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+    y: {
+    beginAtZero: true,
+    },
+    },
+    },
     })
     var salesStatusCtx = document
-        .getElementById('orderStatusChart')
-        .getContext('2d')
-
+    .getElementById('orderStatusChart')
+    .getContext('2d')
+    
     var salesStatusChart = new Chart(salesStatusCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Pending', 'Processing', 'Completed', 'Canceled'],
-            datasets: [
-                {
-                    label: 'Order Status',
-                    data: @json(array_values($saleStatusData)),
-                    backgroundColor: [
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 1,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-        },
+    type: 'bar',
+    data: {
+    labels: ['Pending', 'Processing', 'Completed', 'Canceled'],
+    datasets: [
+    {
+    label: 'Order Status',
+    data: @json(array_values($saleStatusData)),
+    backgroundColor: [
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(255, 99, 132, 0.2)',
+    ],
+    borderColor: [
+    'rgba(255, 206, 86, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 99, 132, 1)',
+    ],
+    borderWidth: 1,
+    },
+    ],
+    },
+    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    },
     })
-</script>
+    </script>
+--}}
