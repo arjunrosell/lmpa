@@ -3,7 +3,6 @@
 @include('layouts.client.sidebar.navigation-menu')
 <x-forms.container>
     <div class="mb-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <!-- Card -->
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -18,18 +17,17 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Total clients
+                    Total Products
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    6389
+                    {{ $totalProducts }}
                 </p>
             </div>
         </div>
-        <!-- Card -->
         <div
-            class="shadow-xs rounded-lgbg-gray-100 flex items-center bg-gray-100 p-8 dark:bg-gray-800"
+            class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
             <div
                 class="mr-4 rounded-full bg-green-100 p-3 text-green-500 dark:bg-green-500 dark:text-green-100"
@@ -44,16 +42,15 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Account balance
+                    My Expenses
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    $ 1,000,000
+                    ₱{{ number_format($totalSales, 2) }}
                 </p>
             </div>
         </div>
-        <!-- Card -->
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -68,16 +65,15 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    New sales
+                    Sales Completed
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    376
+                    {{ $completedSales }}
                 </p>
             </div>
         </div>
-        <!-- Card -->
         <div
             class="shadow-xs flex items-center rounded-lg bg-gray-100 p-8 dark:bg-gray-800"
         >
@@ -86,21 +82,39 @@
             >
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                     <path
-                        fill-rule="evenodd"
-                        d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                        clip-rule="evenodd"
-                    ></path>
+                        d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 8H9V5h2v5zm0 4H9v-2h2v2z"
+                    />
                 </svg>
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Pending contacts
+                    Pending
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    35
+                    {{ $pendingSales }}
                 </p>
+            </div>
+        </div>
+    </div>
+    <div class="mb-6 grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2">
+        <div class="w-full overflow-hidden rounded-lg border bg-white p-6">
+            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+                Monthly User Registrations
+            </h2>
+            <div class="relative h-64 w-full">
+                <canvas id="monthlyDataChart"></canvas>
+            </div>
+        </div>
+        <div class="w-full overflow-hidden rounded-lg border bg-white p-6">
+            <h2
+                class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+                Sales Status Distribution
+            </h2>
+            <div class="relative h-64 w-full">
+                <canvas id="orderStatusChart"></canvas>
             </div>
         </div>
     </div>
@@ -110,7 +124,7 @@
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">SKU</th>
@@ -129,8 +143,8 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($products as $product)
-                    <tr class="border-b dark:border-gray-700">
+                @forelse ($topSellingProducts as $product)
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <td class="px-4 py-3">
                             {{ $product->sku }}
                         </td>
@@ -176,14 +190,13 @@
             </tbody>
         </table>
     </div>
-    {{-- Supplier --}}
     <div class="h-full overflow-x-auto">
-        <div class="mb-2 px-4 text-lg font-semibold">Top Supplier</div>
+        <div class="mb-2 px-4 text-lg font-semibold">Top Suppliers</div>
         <table
             class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
         >
             <thead
-                class="bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
+                class="border-y bg-gray-50 text-sm uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
             >
                 <tr>
                     <th scope="col" class="px-4 py-3">Name</th>
@@ -199,8 +212,8 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($suppliers as $supplier)
-                    <tr class="border-b dark:border-gray-700">
+                @forelse ($topSuppliers as $supplier)
+                    <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <th
                             scope="row"
                             class="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"
@@ -233,22 +246,82 @@
             </tbody>
         </table>
     </div>
-    <div
-        class="flex items-center justify-between border-gray-200 bg-white pt-4 sm:px-0"
-    >
-        <div class="flex flex-1 justify-between sm:hidden">
-            <a
-                href="#"
-                class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-                Previous
-            </a>
-            <a
-                href="#"
-                class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-                Next
-            </a>
-        </div>
-    </div>
 </x-forms.container>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var monthlyDataCtx = document
+        .getElementById('monthlyDataChart')
+        .getContext('2d')
+    var monthlyDataChart = new Chart(monthlyDataCtx, {
+        type: 'line',
+        data: {
+            labels: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            ],
+            datasets: [
+                {
+                    label: 'User Registrations',
+                    data: @json(array_values($chartData['users'])),
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    borderWidth: 2,
+                    tension: 0.4,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    })
+    var salesStatusCtx = document
+        .getElementById('orderStatusChart')
+        .getContext('2d')
+
+    var salesStatusChart = new Chart(salesStatusCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Pending', 'Processing', 'Completed', 'Canceled'],
+            datasets: [
+                {
+                    label: 'Order Status',
+                    data: @json(array_values($saleStatusData)),
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+        },
+    })
+</script>

@@ -85,7 +85,6 @@
                                     src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&size=32&bold=true&rounded=true&background=000000&color=fff"
                                 />
                             </button>
-                            <!-- Dropdown menu -->
                             <div
                                 class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded-xl bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700"
                                 id="dropdown"
@@ -116,7 +115,7 @@
                                 >
                                     <li>
                                         <a
-                                            href="{{ route('admin.account.edit') }}"
+                                            href="{{ route('client.account.edit') }}"
                                             class="block px-4 py-3 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             Settings

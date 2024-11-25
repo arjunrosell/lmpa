@@ -1,11 +1,11 @@
 @include('layouts.client')
-<x-page-title>Products</x-page-title>
+<x-page-title>Sales</x-page-title>
 @include('layouts.client.sidebar.navigation-menu')
 <x-forms.container>
     <div
         class="flex flex-col items-center justify-between space-y-3 pb-4 pt-2 md:flex-row md:space-x-4 md:space-y-0"
     >
-        <x-search-form :action="route('client.products.index')" />
+        <x-search-form :action="route('client.sales.index')" />
         <div
             class="flex w-full flex-shrink-0 flex-col items-stretch justify-end space-y-2 md:w-auto md:flex-row md:items-center md:space-x-3 md:space-y-0"
         >
@@ -52,22 +52,36 @@
                     Date Created (Newest First)
                 </option>
             </select>
-
             <select
                 class="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                name="brand"
-                onchange="window.location.href = '?brand=' + this.value"
+                name="status"
+                onchange="window.location.href = '?status=' + this.value"
             >
-                <option value="all">Filter by Brand</option>
-
-                @foreach ($brands as $brand)
-                    <option
-                        value="{{ $brand->id }}"
-                        {{ request('brand') == $brand->id ? 'selected' : '' }}
-                    >
-                        {{ $brand->name }}
-                    </option>
-                @endforeach
+                <option value="">Filter by Status</option>
+                <option
+                    value="pending"
+                    {{ request('status') == 'pending' ? 'selected' : '' }}
+                >
+                    Pending
+                </option>
+                <option
+                    value="processing"
+                    {{ request('status') == 'processing' ? 'selected' : '' }}
+                >
+                    Processing
+                </option>
+                <option
+                    value="completed"
+                    {{ request('status') == 'completed' ? 'selected' : '' }}
+                >
+                    Completed
+                </option>
+                <option
+                    value="cancelled"
+                    {{ request('status') == 'cancelled' ? 'selected' : '' }}
+                >
+                    Cancelled
+                </option>
             </select>
         </div>
     </div>
@@ -83,51 +97,50 @@
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        SKU
+                        ID
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Image
+                        Product Name
+                    </th>
+                    <th
+                        scope="col"
+                        class="max-w-[200px] px-2 py-3 lg:max-w-[400px]"
+                    >
+                        Customer Name
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Name
+                        Date
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Stock
+                        Quantity
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Category
+                        Product Price
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Brand
+                        Amount
                     </th>
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
                     >
-                        Price
+                        Status
                     </th>
-                    <th
-                        scope="col"
-                        class="max-w-[200px] px-4 py-3 lg:max-w-[400px]"
-                    >
-                        Supplier
-                    </th>
-
                     <th
                         scope="col"
                         class="max-w-[200px] px-4 py-3 text-right lg:max-w-[400px]"
@@ -136,56 +149,88 @@
                     </th>
                 </tr>
             </thead>
+
             <tbody>
-                @forelse ($products as $product)
+                @forelse ($sales as $sale)
                     <tr class="border-b hover:bg-gray-100 dark:border-gray-700">
                         <td
                             class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
                         >
-                            {{ $product->sku }}
-                        </td>
-                        <td
-                            class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
-                        >
-                            <x-product-image :product="$product" />
+                            {{ $sale->id }}
                         </td>
                         <th
                             scope="row"
                             class="max-w-[200px] truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white lg:max-w-[400px]"
                         >
-                            {{ $product->name }}
+                            {{ $sale->product ? $sale->product->name : 'No Product Found' }}
+                        </th>
+                        <th
+                            scope="row"
+                            class="max-w-[200px] truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white lg:max-w-[400px]"
+                        >
+                            {{ $sale->user ? $sale->user->name : 'No Customer' }}
                         </th>
                         <td
                             class="max-w-[200px] truncate px-4 py-3 md:table-cell lg:max-w-[400px]"
                         >
-                            {{ $product->stock }}
+                            {{ $sale->sale_date }}
+                        </td>
+                        <td
+                            class="max-w-[200px] truncate px-4 py-3 md:table-cell lg:max-w-[400px]"
+                        >
+                            {{ $sale->quantity }}
+                        </td>
+                        <td
+                            class="max-w-[200px] truncate px-4 py-3 md:table-cell lg:max-w-[400px]"
+                        >
+                            {{ $sale->product && $sale->product->price !== null ? '₱' . number_format($sale->product->price, 2, '.', ',') : 'N/A' }}
                         </td>
                         <td
                             class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
                         >
-                            {{ $product->category->name ?? 'None' }}
+                            ₱{{ number_format($sale->total_amount, 2, '.', ',') }}
                         </td>
                         <td
                             class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
                         >
-                            {{ $product->brand->name ?? 'None' }}
-                        </td>
-                        <td
-                            class="max-w-[200px] truncate px-4 py-3 lg:max-w-[400px]"
-                        >
-                            ₱{{ number_format($product->price, 2, '.', ',') }}
-                        </td>
-                        <td
-                            class="max-w-[150px] truncate px-4 py-3 lg:max-w-[200px]"
-                        >
-                            {{ $product->supplier->name ?? 'None' }}
+                            @if ($sale->status == 'pending')
+                                <span
+                                    class="rounded-full bg-orange-100 px-2 py-1 text-xs font-semibold leading-tight text-orange-700 dark:bg-orange-600 dark:text-white"
+                                >
+                                    {{ ucfirst($sale->status) }}
+                                </span>
+                            @elseif ($sale->status == 'processing')
+                                <span
+                                    class="rounded-full bg-blue-100 px-2 py-1 text-xs font-semibold leading-tight text-blue-700 dark:bg-blue-700 dark:text-green-100"
+                                >
+                                    {{ ucfirst($sale->status) }}
+                                </span>
+                            @elseif ($sale->status == 'completed')
+                                <span
+                                    class="rounded-full bg-green-100 px-2 py-1 text-xs font-semibold leading-tight text-green-700 dark:bg-green-700 dark:text-green-100"
+                                >
+                                    {{ ucfirst($sale->status) }}
+                                </span>
+                            @elseif ($sale->status == 'cancelled')
+                                <span
+                                    class="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold leading-tight text-red-700 dark:bg-red-700 dark:text-red-100"
+                                >
+                                    {{ ucfirst($sale->status) }}
+                                </span>
+                            @else
+                                <span
+                                    class="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold leading-tight text-gray-700 dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    {{ ucfirst($sale->status ?? 'None') }}
+                                </span>
+                            @endif
                         </td>
                         <td
                             class="flex max-w-[200px] items-center justify-end truncate px-4 py-3 lg:max-w-[400px]"
                         >
                             <button
-                                id="product-{{ $product->id }}-dropdown-button"
-                                data-dropdown-toggle="product-{{ $product->id }}-dropdown"
+                                id="sale-{{ $sale->id }}-dropdown-button"
+                                data-dropdown-toggle="sale-{{ $sale->id }}-dropdown"
                                 class="inline-flex items-center rounded-lg p-0.5 text-center text-sm font-medium text-gray-500 hover:text-gray-800 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                 type="button"
                             >
@@ -202,16 +247,16 @@
                                 </svg>
                             </button>
                             <div
-                                id="product-{{ $product->id }}-dropdown"
+                                id="sale-{{ $sale->id }}-dropdown"
                                 class="z-10 hidden w-44 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                             >
                                 <ul
                                     class="text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="product-{{ $product->id }}-dropdown-button"
+                                    aria-labelledby="sale-{{ $sale->id }}-dropdown-button"
                                 >
                                     <li>
                                         <a
-                                            href="{{ route('client.products.show', $product->id) }}"
+                                            href="{{ route('client.sales.show', $sale->id) }}"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             Show
@@ -229,13 +274,15 @@
                             scope="row"
                             class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                         >
-                            No products found.
+                            No sales found.
                         </th>
                     </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <!-- Pagination links -->
-    {{ $products->links() }}
+    {{-- pagination --}}
+    <div class="pt-4 sm:px-0">
+        {{ $sales->links() }}
+    </div>
 </x-forms.container>

@@ -3,40 +3,30 @@
 namespace App\Http\Controllers\Client;
 
 use App\Models\Brand;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 
-class ClientProductController extends Controller
+class ClientBrandController extends Controller
 {
     private function search(SearchRequest $request)
     {
-        $query = Product::with(['category', 'brand', 'supplier']);
+        $query = Brand::query();
 
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('sku', 'LIKE', "%{$search}%")
-                ->orWhere('name', 'LIKE', "%{$search}%");
-        }
-
-        if ($request->filled('brand') && $request->input('brand') !== 'all') {
-            $query->where('brand_id', $request->input('brand'));
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('description', 'LIKE', "%{$search}%");
         }
 
         if ($request->has('sort')) {
-            switch ($request->input('sort')) {
+            $sort = $request->input('sort');
+            switch ($sort) {
                 case 'name_asc':
                     $query->orderBy('name', 'asc');
                     break;
                 case 'name_desc':
                     $query->orderBy('name', 'desc');
-                    break;
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
                     break;
                 case 'created_asc':
                     $query->orderBy('created_at', 'asc');
@@ -46,9 +36,14 @@ class ClientProductController extends Controller
                     break;
                 default:
                     $query->orderBy('updated_at', 'desc');
+                    break;
             }
         } else {
             $query->orderBy('updated_at', 'desc');
+        }
+
+        if ($request->filled('brand')) {
+            $query->where('id', $request->input('brand'));
         }
 
         return $query->paginate(15);
@@ -56,13 +51,8 @@ class ClientProductController extends Controller
 
     public function index(SearchRequest $request)
     {
-        $products = $this->search($request);
-        $brands = Brand::all();
-
-        return view('client.products.index', compact('products', 'brands'));
-    }
-    public function show(Product $product)
-    {
-        return view('client.products.show', compact('product'));
+        $brands = $this->search($request);
+        $allBrands = Brand::withCount('products')->get();
+        return view('client.brands.index', compact('brands', 'allBrands'));
     }
 }

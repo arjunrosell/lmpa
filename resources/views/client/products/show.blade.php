@@ -1,6 +1,6 @@
 <x-layout>
     <x-page-title>{{ $product->name }}</x-page-title>
-    @include('layouts.staff.sidebar.navigation-menu')
+    @include('layouts.client.sidebar.navigation-menu')
 
     <x-forms.container>
         <div class="bg-white sm:py-4 md:py-10 lg:py-20">
