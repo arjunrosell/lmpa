@@ -20,7 +20,7 @@
     </head>
     <body class="bg-gray-100 text-gray-800">
         <!-- Header -->
-        <header class="bg-black py-4 text-white">
+        <header class="bg-[var(--primary-color)] py-4 text-white">
             <div
                 class="container mx-auto flex flex-wrap items-center justify-between px-6"
             >
