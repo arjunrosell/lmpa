@@ -78,33 +78,25 @@
                 >
                     <ul class="space-y-2">
                         <li>
-                            <a href="#about" class="block hover:text-gray-400">
+                            <a href="#about" class="block hover:text-black">
                                 About Us
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="#services"
-                                class="block hover:text-gray-400"
-                            >
+                            <a href="#services" class="block hover:text-black">
                                 Products
                             </a>
                         </li>
                         <li>
-                            <a
-                                href="#contact"
-                                class="block hover:text-gray-400"
-                            >
+                            <a href="#contact" class="block hover:text-black">
                                 Contact
                             </a>
                         </li>
                         <li>
-                            <a href="/login" class="hover:text-gray-400">
-                                Login
-                            </a>
+                            <a href="/login" class="hover:text-black">Login</a>
                         </li>
                         <li>
-                            <a href="/register" class="hover:text-gray-400">
+                            <a href="/register" class="hover:text-black">
                                 Register
                             </a>
                         </li>
