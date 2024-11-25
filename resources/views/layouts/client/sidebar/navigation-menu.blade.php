@@ -39,7 +39,7 @@
             <x-sidebar.menu-item
                 :route="route('client.sales.index')"
                 :icon="'icons.shopping-bag'"
-                :label="'Your Order'"
+                :label="'Order'"
             ></x-sidebar.menu-item>
 
             <x-forms.divider />
