@@ -59,6 +59,7 @@
                     </div>
                     <div class="flex items-center space-x-2">
                         @guest
+                            <x-navbar-link href="/">Home</x-navbar-link>
                             <x-navbar-link
                                 href="{{ route('login') }}"
                                 :active="request()->is('login')"

@@ -1,19 +1,25 @@
 <?php
 
 // Root route
-Route::get('/', function () {
-    if (Auth::check()) {
-        $user = Auth::user();
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.index');
-        } elseif ($user->hasRole('staff')) {
-            return redirect()->route('staff.index');
-        } elseif ($user->hasRole('client')) {
-            return redirect()->route('client.index');
-        }
+Route::get(
+    '/',
+    function () {
+        return view('home');
     }
-    return redirect()->route('login');
-});
+);
+// Route::get('/', function () {
+//     if (Auth::check()) {
+//         $user = Auth::user();
+//         if ($user->hasRole('admin')) {
+//             return redirect()->route('admin.index');
+//         } elseif ($user->hasRole('staff')) {
+//             return redirect()->route('staff.index');
+//         } elseif ($user->hasRole('client')) {
+//             return redirect()->route('client.index');
+//         }
+//     }
+//     return redirect()->route('login');
+// });
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
