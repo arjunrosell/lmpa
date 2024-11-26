@@ -384,9 +384,7 @@
                             </tbody>
                         </table>
                     @else
-                        <p class="text-center text-red-500">
-                            No users found with the 'client' role.
-                        </p>
+                        <p class="text-center text-red-500">No users found.</p>
                     @endif
                 @endif
 
