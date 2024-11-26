@@ -260,6 +260,7 @@
             </tbody>
         </table>
     </div>
-    <!-- Pagination links -->
-    {{ $products->links() }}
+    <div class="pt-4 sm:px-0">
+        {{ $products->links() }}
+    </div>
 </x-forms.container>
