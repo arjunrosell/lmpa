@@ -26,8 +26,10 @@ class ClientReportController extends Controller
         $data = match ($validated['report_type']) {
             'sales' => \App\Models\Sale::with(['product', 'user'])
                 ->where('user_id', $userId)
-                ->whereBetween('created_at', [$validated['start_date'], $validated['end_date']])
-                ->get(),
+                ->whereBetween('created_at', [
+                    $validated['start_date'] . ' 00:00:00',
+                    $validated['end_date'] . ' 23:59:59'
+                ])->orderBy('created_at', 'asc')->get(),
 
             default => throw new \InvalidArgumentException('Invalid report type'),
         };
