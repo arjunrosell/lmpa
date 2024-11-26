@@ -183,7 +183,6 @@
             </tbody>
         </table>
     </div>
-    {{-- pagination --}}
     <div class="pt-4 sm:px-0">
         {{ $suppliers->links() }}
     </div>

@@ -277,5 +277,7 @@
             </tbody>
         </table>
     </div>
-    {{ $products->links() }}
+    <div class="pt-4 sm:px-0">
+        {{ $products->links() }}
+    </div>
 </x-forms.container>
