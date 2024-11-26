@@ -2,90 +2,50 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Sale;
-use App\Models\User;
-use App\Models\Brand;
-use App\Models\Product;
-use App\Models\Supplier;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
 
 class AdminReportController extends Controller
 {
-    public function products(Request $request)
+    public function index()
     {
-        $products = Product::with(['category', 'brand', 'supplier'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $currentDate = now()->format('F_j_Y');
-        $currentTime = now()->format('H_i_s');
-
-        if ($request->query('download') === 'pdf') {
-            $filename = "Product_Report_{$currentDate}_{$currentTime}.pdf";
-            $pdf = Pdf::loadView('admin.reports.products', compact('products', 'currentDate'));
-
-            return $pdf->stream($filename);
-        }
-
-        return view('admin.reports.products', compact('products', 'currentDate'));
+        return view('admin.reports.index');
     }
-
-    public function brands(Request $request)
+    public function generate(Request $request)
     {
-        $brands = Brand::orderBy('name', 'desc')->get();
+        $validated = $request->validate([
+            'report_type' => 'required|in:products,sales,suppliers,brands,categories,users',
+            'start_date' => 'required|date|before_or_equal:end_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
 
-        if ($request->query('download') === 'pdf') {
-            $filename = "Brands_Report_" . now()->format('F_j_Y_H_i_s') . ".pdf";
-            $pdf = Pdf::loadView('admin.reports.brands', compact('brands'));
-            return $pdf->download($filename);
-        }
+        $data = match ($validated['report_type']) {
+            'products' => \App\Models\Product::whereBetween('created_at', [$validated['start_date'], $validated['end_date']])->get(),
+            'sales' => \App\Models\Sale::with(['product'])
+                ->whereBetween('created_at', [$validated['start_date'], $validated['end_date']])
+                ->get(),
+            'suppliers' => \App\Models\Supplier::whereBetween('created_at', [$validated['start_date'], $validated['end_date']])->get(),
+            'brands' => \App\Models\Brand::whereBetween('created_at', [$validated['start_date'], $validated['end_date']])->get(),
+            'categories' => \App\Models\Category::whereBetween('created_at', [$validated['start_date'], $validated['end_date']])->get(),
+            'users' => \App\Models\User::with('roles')
+                ->whereBetween('created_at', [$validated['start_date'], $validated['end_date']])
+                ->orderBy('created_at', 'asc')
+                ->get(),
+            default => throw new \InvalidArgumentException('Invalid report type'),
+        };
 
-        return view('admin.reports.brands', compact('brands'));
-    }
-
-    public function suppliers(Request $request)
-    {
-        $suppliers = Supplier::all();
-
-        if ($request->query('download') === 'pdf') {
-            $filename = "Suppliers_Report_" . now()->format('F_j_Y_H_i_s') . ".pdf";
-            $pdf = Pdf::loadView('admin.reports.suppliers', compact('suppliers'));
-            return $pdf->download($filename);
-        }
-
-        return view('admin.reports.suppliers', compact('suppliers'));
-    }
-
-    public function sales(Request $request)
-    {
-        $sales = Sale::with('product')->orderBy('created_at', 'desc')->get();
-
-        if ($request->query('download') === 'pdf') {
-            $filename = "Sales_Report_" . now()->format('F_j_Y_H_i_s') . ".pdf";
-            $pdf = Pdf::loadView('admin.reports.sales', compact('sales'));
-            return $pdf->download($filename);
-        }
-
-        return view('admin.reports.sales', compact('sales'));
-    }
-
-    public function users(Request $request)
-    {
-        // Fetch users who have the 'client' role
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'client');
-        })
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        if ($request->query('download') === 'pdf') {
-            $filename = "Users_Report_" . now()->format('F_j_Y_H_i_s') . ".pdf";
-            $pdf = Pdf::loadView('admin.reports.users', compact('users'));
-            return $pdf->download($filename);
-        }
-
-        return view('admin.reports.users', compact('users'));
+        return view('admin.reports.generate', [
+            'data' => $data,
+            'reportType' => ucfirst($validated['report_type']),
+            'startDate' => $validated['start_date'],
+            'endDate' => $validated['end_date'],
+            'products' => $validated['report_type'] === 'products' ? $data : null,
+            'sales' => $validated['report_type'] === 'sales' ? $data : null,
+            'suppliers' => $validated['report_type'] === 'suppliers' ? $data : null,
+            'brands' => $validated['report_type'] === 'brands' ? $data : null,
+            'categories' => $validated['report_type'] === 'categories' ? $data : null,
+            'users' => $validated['report_type'] === 'users' ? $data : null,
+        ]);
     }
 }

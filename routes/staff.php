@@ -71,9 +71,11 @@ Route::middleware(['auth', 'verified', 'role:staff', 'throttle:global'])->group(
     Route::put('/staff/account', [StaffAccountSettingsController::class, 'update'])->name('staff.account.update');
 
     // Staff Reports
-    Route::get('/staff/reports/products',  [StaffReportController::class, 'products'])->name('staff.reports.products');
-    Route::get('/staff/reports/brands',    [StaffReportController::class, 'brands'])->name('staff.reports.brands');
-    Route::get('/staff/reports/suppliers', [StaffReportController::class, 'suppliers'])->name('staff.reports.suppliers');
-    Route::get('/staff/reports/sales',     [StaffReportController::class, 'sales'])->name('staff.reports.sales');
-    Route::get('/staff/reports/users',     [StaffReportController::class, 'users'])->name('staff.reports.users');
+    Route::get('/staff/reports', [StaffReportController::class, 'index'])->name('staff.reports.index');
+    Route::post('/staff/reports/generate', [StaffReportController::class, 'generate'])->name('staff.reports.generate');
+
+    // Redirect to reports index
+    Route::get('/staff/reports/generate', function () {
+        return redirect()->route('staff.reports.index');
+    });
 });

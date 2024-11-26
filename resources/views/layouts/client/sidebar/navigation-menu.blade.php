@@ -4,7 +4,7 @@
     id="drawer-navigation"
 >
     <div class="h-full overflow-y-auto bg-white px-3 py-5 dark:bg-gray-800">
-        <ul class="space-y-2">
+        <ul class="space-y-5 pb-8">
             <div class="text-normal mb-2 font-bold">Inventory</div>
             <x-sidebar.menu-item
                 :route="route('client.index')"
@@ -41,17 +41,13 @@
                 :icon="'icons.shopping-bag'"
                 :label="'Orders'"
             ></x-sidebar.menu-item>
-
             <x-forms.divider />
-
-            <div class="text-normal mb-2 font-bold">Reports</div>
+            <div class="text-normal mb-2 font-bold">Generate Report</div>
             <x-sidebar.menu-item
-                :route="route('client.reports.sales')"
-                :icon="'icons.bar-chart'"
-                :label="'Generate'"
-                target="_blank"
+                :route="route('client.reports.index')"
+                :icon="'icons.inbox'"
+                :label="'Reports'"
             ></x-sidebar.menu-item>
-
             <x-forms.divider />
         </ul>
     </div>

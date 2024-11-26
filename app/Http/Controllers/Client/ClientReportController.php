@@ -3,29 +3,41 @@
 namespace App\Http\Controllers\Client;
 
 use App\Models\Sale;
-use App\Models\User;
-use App\Models\Brand;
-use App\Models\Product;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 
 class ClientReportController extends Controller
 {
-    public function sales(Request $request)
+    public function index()
     {
-        $sales = Sale::with('product')
-            ->where('user_id', auth()->id())
-            ->orderBy('created_at', 'desc')
-            ->get();
+        return view('client.reports.index');
+    }
 
-        if ($request->query('download') === 'pdf') {
-            $filename = "Sales_Report_" . now()->format('F_j_Y_H_i_s') . ".pdf";
-            $pdf = Pdf::loadView('client.reports.sales', compact('sales'));
-            return $pdf->download($filename);
-        }
+    public function generate(Request $request)
+    {
+        $validated = $request->validate([
+            'report_type' => 'required|in:sales',
+            'start_date' => 'required|date|before_or_equal:end_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
 
-        return view('client.reports.sales', compact('sales'));
+        $userId = auth()->id();
+
+        $data = match ($validated['report_type']) {
+            'sales' => \App\Models\Sale::with(['product', 'user'])
+                ->where('user_id', $userId)
+                ->whereBetween('created_at', [$validated['start_date'], $validated['end_date']])
+                ->get(),
+
+            default => throw new \InvalidArgumentException('Invalid report type'),
+        };
+
+        return view('client.reports.generate', [
+            'data' => $data,
+            'reportType' => ucfirst($validated['report_type']),
+            'startDate' => $validated['start_date'],
+            'endDate' => $validated['end_date'],
+            'sales' => $validated['report_type'] === 'sales' ? $data : null,
+        ]);
     }
 }

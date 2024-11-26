@@ -27,9 +27,7 @@ class RateLimiterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Define global rate limiter
         RateLimiter::for('global', function (Request $request) {
-            // Allow 100 requests per minute globally
             return Limit::perMinute(100);
         });
     }

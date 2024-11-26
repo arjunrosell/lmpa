@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\ClientBrandController;
 
-use App\Http\Controllers\Client\ClientOrderController;
 use App\Http\Controllers\Client\ClientSalesController;
 use App\Http\Controllers\Client\ClientReportController;
 use App\Http\Controllers\Client\ClientProductController;
@@ -31,13 +30,19 @@ Route::middleware(['auth', 'verified', 'role:client', 'throttle:global'])->group
     Route::get('/client/suppliers', [ClientSupplierController::class, 'index'])->name('client.suppliers.index');
 
     // sale Management Routes
-    Route::get('/client/sales', [ClientSalesController::class, 'index'])->name('client.sales.index');
-    Route::get('/client/sales/{sale}', [ClientSalesController::class, 'show'])->name('client.sales.show');
+    Route::get('/client/orders', [ClientSalesController::class, 'index'])->name('client.sales.index');
+    Route::get('/client/orders/{sale}', [ClientSalesController::class, 'show'])->name('client.sales.show');
 
     // Account Management Routes
     Route::get('/client/account', [ClientAccountSettingsController::class, 'edit'])->name('client.account.edit');
     Route::put('/client/account', [ClientAccountSettingsController::class, 'update'])->name('client.account.update');
 
-    // Staff Reports
-    Route::get('/client/reports/sales',     [ClientReportController::class, 'sales'])->name('client.reports.sales');
+    // Client Reports
+    Route::get('/client/reports', [ClientReportController::class, 'index'])->name('client.reports.index');
+    Route::post('/client/reports/generate', [ClientReportController::class, 'generate'])->name('client.reports.generate');
+
+    // Redirect to reports index
+    Route::get('/client/reports/generate', function () {
+        return redirect()->route('client.reports.index');
+    });
 });

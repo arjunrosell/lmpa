@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminBrandController;
-use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminSalesController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Admin\AdminProductController;
@@ -76,9 +76,11 @@ Route::middleware(['auth', 'verified', 'role:admin', 'throttle:global'])->group(
     Route::put('/admin/account', [AdminAccountSettingsController::class, 'update'])->name('admin.account.update');
 
     // Admin Reports
-    Route::get('/admin/reports/products',  [AdminReportController::class, 'products'])->name('admin.reports.products');
-    Route::get('/admin/reports/brands',    [AdminReportController::class, 'brands'])->name('admin.reports.brands');
-    Route::get('/admin/reports/suppliers', [AdminReportController::class, 'suppliers'])->name('admin.reports.suppliers');
-    Route::get('/admin/reports/sales',     [AdminReportController::class, 'sales'])->name('admin.reports.sales');
-    Route::get('/admin/reports/users',     [AdminReportController::class, 'users'])->name('admin.reports.users');
+    Route::get('/admin/reports', [AdminReportController::class, 'index'])->name('admin.reports.index');
+    Route::post('/admin/reports/generate', [AdminReportController::class, 'generate'])->name('admin.reports.generate');
+
+    // Redirect to reports index
+    Route::get('/admin/reports/generate', function () {
+        return redirect()->route('admin.reports.index');
+    });
 });

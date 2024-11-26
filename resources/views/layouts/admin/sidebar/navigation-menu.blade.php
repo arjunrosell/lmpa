@@ -4,7 +4,7 @@
     id="drawer-navigation"
 >
     <div class="h-full overflow-y-auto bg-white px-3 py-5 dark:bg-gray-800">
-        <ul class="space-y-2 pb-8">
+        <ul class="space-y-5 pb-8">
             <div class="text-normal mb-2 font-bold">Inventory</div>
             <x-sidebar.menu-item
                 :route="route('admin.index')"
@@ -42,51 +42,19 @@
                 :label="'Sales'"
             ></x-sidebar.menu-item>
             <x-forms.divider />
-
-            <div class="text-normal mb-2 font-bold">Reports</div>
+            <div class="text-normal mb-2 font-bold">Generate Report</div>
             <x-sidebar.menu-item
-                :route="route('admin.reports.products')"
+                :route="route('admin.reports.index')"
                 :icon="'icons.inbox'"
-                :label="'Inventory'"
-                target="_blank"
+                :label="'Reports'"
             ></x-sidebar.menu-item>
-            <x-sidebar.menu-item
-                :route="route('admin.reports.sales')"
-                :icon="'icons.bar-chart'"
-                :label="'Sales'"
-                target="_blank"
-            ></x-sidebar.menu-item>
-
-            <x-sidebar.menu-item
-                :route="route('admin.reports.brands')"
-                :icon="'icons.tag'"
-                :label="'Brand'"
-                target="_blank"
-            ></x-sidebar.menu-item>
-
-            <x-sidebar.menu-item
-                :route="route('admin.reports.suppliers')"
-                :icon="'icons.user-check'"
-                :label="'Supplier'"
-                target="_blank"
-            ></x-sidebar.menu-item>
-
-            <x-sidebar.menu-item
-                :route="route('admin.reports.users')"
-                :icon="'icons.user'"
-                :label="'Customer'"
-                target="_blank"
-            ></x-sidebar.menu-item>
-
             <x-forms.divider />
-
-            <div class="text-normal mb-2 font-bold">User Management</div>
+            <div class="text-normal mb-2 font-bold">Manage Users</div>
             <x-sidebar.menu-item
                 :route="route('admin.users.index')"
                 :icon="'icons.users'"
                 :label="'Users'"
             ></x-sidebar.menu-item>
-            <x-forms.divider />
         </ul>
     </div>
 </aside>
