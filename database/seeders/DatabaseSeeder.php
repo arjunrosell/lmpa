@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
             $this->command->info('User not found.');
         }
 
-        //Seed Category
+        //Seed category
         $this->call(CategorySeeder::class);
     }
 }
